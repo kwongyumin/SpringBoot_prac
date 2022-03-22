@@ -1,0 +1,116 @@
+/*
+    Thymeleaf css 링크 설정이 안되어서 일단 보류..
+
+ */
+
+div,span,h1,h2,h3,h4,h5,h6,body,header,section{
+    margin: 0;
+    padding: 0;
+}
+body{
+    padding-left: 20px;
+}
+h1{
+    padding-left: 20px;
+}
+
+section{
+    min-width: 800px;
+    max-width: 1400px;
+    margin: 10px auto;
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead > tr > td:first-child{
+    text-align: center;
+}
+tbody > tr > td:nth-child(2){
+    width: 50%;
+}
+tbody > tr > td:nth-child(2) > a{
+    display: block;
+    margin: 0;
+    width: 100%;
+    height: auto;
+}
+
+.sb {
+    box-sizing: border-box;
+    margin: 20px auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+input[type="button"],
+input[type="submit"],
+button {
+    background-color: lightgrey;
+    color: black;
+    font-size: 17px;
+    border: 0;
+    border-radius: 20px;
+    width: 120px;
+    height: 40px;
+    font-weight: bold;
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+button:hover {
+    background-color: black;
+    transition-duration: 0.5s;
+    color: white;
+}
+
+tbody> tr{
+    height: 35px;
+    border-bottom: 1px solid black;
+}
+form[method="POST"] table>tbody>tr {
+    border: 0;
+}
+
+form[method="POST"] table>tbody>tr>th {
+    text-align: left;
+}
+
+form[method="POST"] input[type="text"] {
+    all: unset;
+    padding: 10px;
+    font-size: 18px;
+    border: 0;
+    width: 50%;
+    border-bottom: 2px solid black;
+}
+
+form[method="POST"] textarea {
+    min-height: 500px;
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 17px;
+    margin: 20px auto;
+}
+
+
+

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    div,span,h1,h2,h3,h4,h5,h6,body,header,section{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        padding-left: 20px;
+    }
+    h1{
+        padding-left: 20px;
+    }
+
+    section{
+        min-width: 800px;
+        max-width: 1400px;
+        margin: 10px auto;
+        padding: 20px;
+        box-sizing: border-box;
+
+    }
+
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+
+    a:hover{
+        text-decoration: underline;
+    }
+
+    table{
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    thead > tr > td:first-child{
+        text-align: center;
+    }
+    tbody > tr > td:nth-child(2){
+        width: 50%;
+    }
+    tbody > tr > td:nth-child(2) > a{
+        display: block;
+        margin: 0;
+        width: 100%;
+        height: auto;
+    }
+    .sb {
+        box-sizing: border-box;
+        margin: 20px auto;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+
+    input[type="button"],
+    input[type="submit"],
+    button {
+        background-color: lightgrey;
+        color: black;
+        font-size: 17px;
+        border: 0;
+        border-radius: 20px;
+        width: 120px;
+        height: 40px;
+        font-weight: bold;
+        transition-duration: 0.5s;
+        cursor: pointer;
+    }
+
+    input[type="button"]:hover,
+    input[type="submit"]:hover,
+    button:hover {
+        background-color: black;
+        transition-duration: 0.5s;
+        color: white;
+    }
+
+    tbody> tr{
+        height: 35px;
+        border-bottom: 1px solid black;
+    }
+    form[method="POST"] table>tbody>tr {
+        border: 0;
+    }
+
+    form[method="POST"] table>tbody>tr>th {
+        text-align: left;
+    }
+
+    form[method="POST"] input[type="text"] {
+        all: unset;
+        padding: 10px;
+        font-size: 18px;
+        border: 0;
+        width: 50%;
+        border-bottom: 2px solid black;
+    }
+
+    form[method="POST"] textarea {
+        min-height: 500px;
+        width: 100%;
+        resize: none;
+        box-sizing: border-box;
+        padding: 20px;
+        font-size: 17px;
+        margin: 20px auto;
+    }
+
+</style>
+<script>
+    function boardDelete(){
+
+        let index = $('#index').val();
+
+        $.ajax({
+            type:"DELETE",
+            url:"/board/delete/"+index,
+            success: function(response){
+                alert("삭제가 완료되었습니다");
+                window.location.href="/board";
+            }
+        });
+
+    }
+
+</script>
+
+
+
+</head>
+<body>
+
+<section>
+
+    <input type="hidden" id="index" th:name="index" th:value="${index}"/>
+
+    <div style="margin-bottom: 20px">
+        <span th:text="${boardOne.username}"></span> 님의 게시글입니다.
+    </div>
+    <table>
+        <tr>
+            <td>
+                제목 : <span th:text="${boardOne.title}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <pre th:text="${boardOne.contents}">
+
+                </pre>
+
+            </td>
+
+        </tr>
+    </table>
+    <div class="sb">
+        <div>
+            <a href="/board"><button>목록</button></a>
+        </div>
+        <div>
+            <!--<a th:href="@{'/board/'+${List.id}}"> -->
+            <a th:href="@{'/board/modify/'+${boardOne.id}}">
+                <button>수정</button>
+            </a>
+            <button th:if="${boardOne?.id}" onclick="boardDelete()">글삭제</button>
+
+        </div>
+    </div>
+
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Title</title>
+
+    <style>
+        div,span,h1,h2,h3,h4,h5,h6,body,header,section{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            padding-left: 20px;
+        }
+        h1{
+            padding-left: 20px;
+        }
+
+        section{
+            min-width: 800px;
+            max-width: 1400px;
+            margin: 10px auto;
+            padding: 20px;
+            box-sizing: border-box;
+
+        }
+
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover{
+            text-decoration: underline;
+        }
+
+        table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead > tr > td:first-child{
+            text-align: center;
+        }
+        tbody > tr > td:nth-child(2){
+            width: 50%;
+        }
+        tbody > tr > td:nth-child(2) > a{
+            display: block;
+            margin: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        input[type="button"],
+        input[type="submit"],
+        button {
+            background-color: lightgrey;
+            color: black;
+            font-size: 17px;
+            border: 0;
+            border-radius: 20px;
+            width: 120px;
+            height: 40px;
+            font-weight: bold;
+            transition-duration: 0.5s;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover,
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: black;
+            transition-duration: 0.5s;
+            color: white;
+        }
+
+        tbody> tr{
+            height: 35px;
+            border-bottom: 1px solid black;
+        }
+        form[method="POST"] table>tbody>tr {
+            border: 0;
+        }
+
+        form[method="POST"] table>tbody>tr>th {
+            text-align: left;
+        }
+
+        form[method="POST"] input[type="text"] {
+            all: unset;
+            padding: 10px;
+            font-size: 18px;
+            border: 0;
+            width: 50%;
+            border-bottom: 2px solid black;
+        }
+
+        form[method="POST"] textarea {
+            min-height: 500px;
+            width: 100%;
+            resize: none;
+            box-sizing: border-box;
+            padding: 20px;
+            font-size: 17px;
+            margin: 20px auto;
+        }
+
+
+    </style>
+
+
+
+<script>
+
+    function isValidContents(contents) {
+        if (contents == '') {
+            alert('내용을 입력해주세요');
+            return false;
+        }
+        if (contents.trim().length > 140) {
+            alert('공백 포함 140자 이하로 입력해주세요');
+            return false;
+        }
+        return true;
+    }
+    function boardWrite(){
+
+        let username = $('#username').val();
+        let title = $('#title').val();
+        let contents = $('#contents').val();
+
+
+        if(isValidContents(contents) == false) return;
+
+        let data = {'username':username,'title':title,'contents':contents}
+
+
+        $.ajax({
+           type:"POST",
+            url:"/board/write",
+            contentType:"application/json",
+            data:JSON.stringify(data),
+            success:function (response) {
+                alert('메시지가 성공적으로 작성되었습니다!');
+
+                window.location.href="/board";
+
+            }
+        });
+    }
+
+    function boardUpdate(){
+
+        let index = $('#index').val();
+        let username = $('#username').val();
+        let title = $('#title').val();
+        let contents = $('#contents').val();
+
+        if(isValidContents(contents) == false) return;
+
+        let data = {'username':username,'title':title,'contents':contents}
+
+        $.ajax({
+
+           type:"PUT",
+            url:"/board/modify/"+index,
+            contentType:"application/json",
+            data:JSON.stringify(data),
+            success:function (response) {
+                alert('수정이 완료되었습니다!');
+
+                window.location.href="/board/"+index;
+
+
+            }
+
+
+        });
+
+    }
+
+
+
+</script>
+
+</head>
+<body>
+
+<h2>글 작성란</h2>
+<form method="post">
+    <input type="hidden" id="index" th:name="index" th:value="${index}"/>
+
+    <table>
+        <tr>
+            <th><input type="text"
+                       id="username"
+                       name="username"
+                       placeholder="작성자"
+                       required></th>
+        </tr>
+        <tr>
+            <th><input type="text"
+                       id="title"
+                       name="title"
+                       placeholder="제목"
+                       required></th>
+        </tr>
+        <tr>
+            <td>
+				<textarea id="contents"
+                          name="contents"
+                          placeholder="바르고 고운말을 씁시다"
+                          required></textarea>
+            </td>
+        </tr>
+    </table>
+
+    <button th:if="!${boardOne?.id}" type="button" onclick="boardWrite()">글작성</button>
+    <button th:if="${boardOne?.id}" type="button" onclick="boardUpdate()" >글수정</button>
+
+
+
+</form>
+</body>
+</html>

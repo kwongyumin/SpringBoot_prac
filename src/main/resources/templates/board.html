@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Title</title>
+
+    <style>
+        div,span,h1,h2,h3,h4,h5,h6,body,header,section{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            padding-left: 20px;
+        }
+        h1{
+            padding-left: 20px;
+        }
+
+        section{
+            min-width: 800px;
+            max-width: 1400px;
+            margin: 10px auto;
+            padding: 20px;
+            box-sizing: border-box;
+
+        }
+
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover{
+            text-decoration: underline;
+        }
+
+        table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead > tr > td:first-child{
+            text-align: center;
+        }
+        tbody > tr > td:nth-child(2){
+            width: 50%;
+        }
+        tbody > tr > td:nth-child(2) > a{
+            display: block;
+            margin: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        input[type="button"],
+        input[type="submit"],
+        button {
+            background-color: lightgrey;
+            color: black;
+            font-size: 17px;
+            border: 0;
+            border-radius: 20px;
+            width: 120px;
+            height: 40px;
+            font-weight: bold;
+            transition-duration: 0.5s;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover,
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: black;
+            transition-duration: 0.5s;
+            color: white;
+        }
+
+        tbody> tr{
+            text-align: center;
+            height: 35px;
+            border-bottom: 1px solid black;
+        }
+        form[method="POST"] table>tbody>tr {
+            border: 0;
+        }
+
+        form[method="POST"] table>tbody>tr>th {
+            text-align: left;
+        }
+
+        form[method="POST"] input[type="text"] {
+            all: unset;
+            padding: 10px;
+            font-size: 18px;
+            border: 0;
+            width: 50%;
+            border-bottom: 2px solid black;
+        }
+
+        form[method="POST"] textarea {
+            min-height: 500px;
+            width: 100%;
+            resize: none;
+            box-sizing: border-box;
+            padding: 20px;
+            font-size: 17px;
+            margin: 20px auto;
+        }
+
+        .writeBtn{
+            margin-top: 20px;
+
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+<section>
+    <h2 style="margin-bottom: 20px">게시글 목록</h2>
+    <table>
+        <thead>
+        <tr>
+            <th th:text="No">key</th>
+            <th th:text="작성자">name</th>
+            <th th:text="제목">title</th>
+            <th th:text="작성일자">time</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="List:${list}">
+            <td th:text="${List.id}">키값</td>
+            <td th:text="${List.username}">이름</td>
+            <td><a th:href="@{'/board/'+${List.id}}"><span th:text="${List.title}"></span></a></td>
+            <td th:text="${#temporals.format(List.modifiedAt,'yyyy-MM-dd HH:mm')}">시간</td>
+
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="writeBtn">
+        <a href="/board/write">
+            <button th:text="글작성"></button>
+        </a>
+
+
+    </div>
+</section>
+</body>
+</html>
