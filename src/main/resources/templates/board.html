@@ -111,6 +111,14 @@
 
         .writeBtn{
             margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+
+        }
+
+        .boardheader{
+            display: flex;
+            justify-content: space-between;
 
 
         }
@@ -121,7 +129,13 @@
 <body>
 
 <section>
-    <h2 style="margin-bottom: 20px">게시글 목록</h2>
+    <div th:if="!${username}" class="boardheader">
+        <h2 style="margin-bottom: 20px">게시글 목록</h2>
+
+    </div>
+    <div th:if="${username}" style="margin-bottom: 35px;">
+        <h2><span th:text="${username}"></span>님 환영합니다!</h2>
+    </div>
     <table>
         <thead>
         <tr>
@@ -146,11 +160,27 @@
 
     </table>
 
-    <div class="writeBtn">
+    <div th:if="!${username}" class="writeBtn">
         <a href="/board/write">
             <button th:text="글작성"></button>
         </a>
+        <a href="/user/login">
+            <button th:text="로그인"></button>
+        </a>
+        <!--        <form th:if="!${username}" id="my_form" method="post" action="/user/logout">-->
+        <!--            <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>-->
 
+        <!--        </form>-->
+
+    </div>
+
+    <div th:if="${username}" class="writeBtn">
+        <a href="/board/write">
+            <button th:text="글작성"></button>
+        </a>
+        <a href="/user/logout">
+            <button th:text="로그아웃"></button>
+        </a>
 
     </div>
 </section>

@@ -1,26 +1,29 @@
 package com.sparta.spartaproject01.service;
 
-import com.sparta.spartaproject01.domain.Board;
-import com.sparta.spartaproject01.domain.BoardRepository;
-import com.sparta.spartaproject01.domain.BoardRequestDto;
+import com.sparta.spartaproject01.model.Board;
+import com.sparta.spartaproject01.repository.BoardRepository;
+import com.sparta.spartaproject01.dto.BoardRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class BoardService {
 
     private final BoardRepository br;
 
+
+    //단일객체 조회
     public Optional<Board> findOne(long idx){
-        Optional<Board> boardOne= br.findById(idx);
-        return boardOne;
+        return br.findById(idx);
 
     }
+    //업데이트
     @Transactional
     public Long update(Long id, BoardRequestDto requestDto){
 
@@ -33,6 +36,7 @@ public class BoardService {
     }
 
     //Transactional 테스트 ,
+    //삭제
     @Transactional
     public void delete(Long id){
        br.deleteById(id);

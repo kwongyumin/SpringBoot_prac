@@ -88,7 +88,7 @@
         form[method="POST"] table>tbody>tr>th {
             text-align: left;
         }
-
+        form[method="POST"] h2,
         form[method="POST"] input[type="text"] {
             all: unset;
             padding: 10px;
@@ -115,6 +115,14 @@
 
 <script>
 
+    function isValidTitle(title){
+        if (title ==''){
+            alert('제목을 입력해주세요')
+            return false;
+        }
+        return true;
+    }
+
     function isValidContents(contents) {
         if (contents == '') {
             alert('내용을 입력해주세요');
@@ -128,11 +136,13 @@
     }
     function boardWrite(){
 
+
         let username = $('#username').val();
         let title = $('#title').val();
         let contents = $('#contents').val();
 
 
+        if(isValidTitle(title) == false) return;
         if(isValidContents(contents) == false) return;
 
         let data = {'username':username,'title':title,'contents':contents}
@@ -144,7 +154,7 @@
             contentType:"application/json",
             data:JSON.stringify(data),
             success:function (response) {
-                alert('메시지가 성공적으로 작성되었습니다!');
+                alert('게시글이 작성되었습니다!');
 
                 window.location.href="/board";
 
@@ -159,6 +169,7 @@
         let title = $('#title').val();
         let contents = $('#contents').val();
 
+        if(isValidTitle(title) == false) return;
         if(isValidContents(contents) == false) return;
 
         let data = {'username':username,'title':title,'contents':contents}
@@ -189,17 +200,17 @@
 </head>
 <body>
 
-<h2>글 작성란</h2>
+<h2 style="margin-bottom: 20px">글 작성란</h2>
 <form method="post">
     <input type="hidden" id="index" th:name="index" th:value="${index}"/>
 
     <table>
         <tr>
-            <th><input type="text"
-                       id="username"
-                       name="username"
-                       placeholder="작성자"
-                       required></th>
+            <th><h2 th:text="'글 작성자 : '+${username}"></h2></th>
+            <!--전달받은 username을 히든값으로 전달  -->
+
+            <input type="hidden" th:id="username" th:name="username" th:value="${username}">
+
         </tr>
         <tr>
             <th><input type="text"
@@ -220,7 +231,7 @@
 
     <button th:if="!${boardOne?.id}" type="button" onclick="boardWrite()">글작성</button>
     <button th:if="${boardOne?.id}" type="button" onclick="boardUpdate()" >글수정</button>
-
+    <button type="button"><a href="/board">목록</a></button>
 
 
 </form>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    input[type="button"],
+    input[type="submit"],
+    button {
+        background-color: lightgrey;
+        color: black;
+        font-size: 17px;
+        border: 0;
+        border-radius: 20px;
+        width: 120px;
+        height: 40px;
+        font-weight: bold;
+        transition-duration: 0.5s;
+        cursor: pointer;
+    }
+    input[type="button"]:hover,
+    input[type="submit"]:hover,
+    button:hover {
+        background-color: black;
+        transition-duration: 0.5s;
+        color: white;
+    }
+    textarea,
+    textarea {
+        min-height: 500px;
+        width: 100%;
+        resize: none;
+        box-sizing: border-box;
+        padding: 20px;
+        font-size: 17px;
+        margin: 20px auto;
+    }
+</style>
+
+    <script>
+        function isValidContents(contents) {
+            if (contents == '') {
+                alert('내용을 입력해주세요');
+                return false;
+            }
+            if (contents.trim().length > 140) {
+                alert('공백 포함 140자 이하로 입력해주세요');
+                return false;
+            }
+            return true;
+        }
+
+        function commentUpdate() {
+
+            let boardIndex = $('#boardID').val();
+            let commentIndex = $('#commentID').val();
+            let username = $('#username').val();
+            let contents = $('#contents').val();
+
+            if (isValidContents(contents) == false) return;
+
+            let data = {'username': username, 'contents': contents}
+
+            $.ajax({
+
+                type: "PUT",
+                url: "/comment/modify/" + commentIndex,
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    console.log("ㅇ?")
+                    alert('수정이 완료되었습니다!');
+
+                    window.location.href = "/board/" + boardIndex;
+
+
+                }
+
+
+            });
+
+        }
+
+    </script>
+
+
+</head>
+<body>
+
+<div>
+
+
+        <input type="hidden" th:id="boardID" th:name="boardID" th:value="${index}"/>
+        <input type="hidden" th:id="commentID" th:name="commentID" th:value="${commentID}"/>
+        <input type="hidden" th:id="username" th:name="username" th:value="${commentOne.username}"/>
+
+        <h2 th:text="${commentOne.username}+'님 수정하실 내용을 입력해주세요.'"></h2>
+        <textarea name="contents" th:id="contents" th:name="contents" th:value="${commentOne.content}" th:text="${commentOne.content}" style="min-height: 200px"></textarea>
+
+        <button onclick="commentUpdate()" style="margin-bottom: 20px">수정</button>
+
+</div>
+
+
+
+</body>
+</html>
